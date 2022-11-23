@@ -94,6 +94,29 @@ const AudioPlayer = () => {
     }
   };
 
+  const skipHandler = async (skipAction) => {
+    let secondsToSkip = 5;
+    try {
+      if (
+        isPlaying &&
+        skipAction == 'backward' &&
+        currentDuration < totalDuration - secondsToSkip * 1000
+      ) {
+        await audio.setPositionAsync(currentDuration - secondsToSkip * 1000);
+      } else if (
+        isPlaying &&
+        skipAction == 'forward' &&
+        currentDuration > secondsToSkip * 1000
+      ) {
+        await audio.setPositionAsync(currentDuration + secondsToSkip * 1000);
+      } else {
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onPlaybackStatusUpdate = (playbackStatus) => {
     if (!playbackStatus.isLoaded) {
       console.log('Loading');
@@ -136,10 +159,10 @@ const AudioPlayer = () => {
       if (playbackStatus.durationMillis) {
         setTotalDuration(playbackStatus.durationMillis);
       }
-
       // etc
     }
   };
+
   const navigation = useNavigation();
 
   return (
@@ -186,11 +209,10 @@ const AudioPlayer = () => {
       </View>
 
       {totalDuration ? (
-        <View>
-          <View className='flex-row items-center justify-around w-4/6 mb-20'>
+        <View className='items-center w-full mb-20'>
+          <View className='flex-row items-center justify-around w-4/6'>
             <Pressable
               onPress={() => {
-                // playbackHandler('play');
                 changeTrackHandler('previous');
               }}
             >
@@ -246,8 +268,24 @@ const AudioPlayer = () => {
               </View>
             </Pressable>
           </View>
-          <View className='w-full flex-row justify-around mx-4'>
-            <Image source={require('../assets/images/skip.png')} className='w-4 h-4 bg-slate-200 rounded-full'/>
+          <View className='flex-row justify-around items-center mx-auto mt-5'>
+            <Pressable onPress={() => skipHandler('backward')}>
+              <View className='bg-slate-400 rounded-full p-3 mx-10'>
+                <Image
+                  source={require('../assets/images/skip.png')}
+                  className='w-4 h-4'
+                />
+              </View>
+            </Pressable>
+            <Pressable onPress={() => skipHandler('forward')}>
+              <View className='bg-slate-400 rounded-full p-3 mx-10'>
+                <Image
+                  source={require('../assets/images/skip.png')}
+                  className='w-4 h-4'
+                  style={{ transform: [{ rotateY: '180deg' }] }}
+                />
+              </View>
+            </Pressable>
           </View>
         </View>
       ) : (
