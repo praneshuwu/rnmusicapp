@@ -22,8 +22,6 @@ const TrackList = ({ albumId, imgUrl }) => {
   trackData?.tracks?.map((track) => {
     trackList.push(track.id);
   });
-
-  console.log(trackList);
   return (
     <View>
       <Text className='text-center my-1 text-white text-xl font-bold'>

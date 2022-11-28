@@ -31,15 +31,3 @@ export const fetchAlbumList = async (dispatch, limit) => {
   }
 };
 
-
-// export const fetchTrack = async (dispatch, trackId) => {
-//   dispatch(loading);
-//   try {
-//     const response = await axios.get(
-//       `${process.env.API_URL}/tracks/${trackId}?apikey=${process.env.API_KEY}`
-//     );
-//     dispatch(trackFetched(response.data.tracks));
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };

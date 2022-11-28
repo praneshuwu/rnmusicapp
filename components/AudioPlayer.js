@@ -1,12 +1,11 @@
-import { View, Text, Image, Animated } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Audio } from 'expo-av';
-import axios from 'axios';
 
-import { fetchTrack } from '../utils/apiCalls';
+import axios from 'axios';
 
 const AudioPlayer = () => {
   const {
@@ -20,17 +19,23 @@ const AudioPlayer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(trackId);
   const [trackTitle, setTrackTitle] = useState(trackName);
-  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
+  const [isPreviousDisabled, setIsPreviousDisabled] = useState(false);
+
   const dispatch = useDispatch();
 
   // const track = useSelector((state) => state.track.track[0]);
 
+  let currIndex = trackList.indexOf(currentTrack) + 1;
+
   const changeTrackHandler = (action) => {
     resetPlayer();
-    if (action == 'next' && trackList.indexOf(currentTrack) < returnedCount) {
+    if (action == 'next' && currIndex <= trackList.length) {
       setCurrentTrack(trackList[trackList.indexOf(currentTrack) + 1]);
-    } else if (action == 'previous' && trackList.indexOf(currentTrack) > 0) {
+    } else if (action == 'previous' && currIndex >= 0) {
       setCurrentTrack(trackList[trackList.indexOf(currentTrack) - 1]);
+    } else {
+      return;
     }
   };
 
@@ -45,8 +50,6 @@ const AudioPlayer = () => {
   };
 
   const fetchAudio = async () => {
-    // await fetchTrack(dispatch, trackId);
-    console.log(`${trackList.indexOf(currentTrack)}: ${currentTrack}`);
     if (currentTrack) {
       try {
         setIsLoading(true);
@@ -62,6 +65,7 @@ const AudioPlayer = () => {
         // setIsPlaying(true);
         await setAudio(sound);
         await sound?.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+        await sound._subscribeToNativeEvents();
         setIsLoading(false);
       } catch (err) {
         console.log(err);
@@ -70,14 +74,14 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
-    if (isLoading) {
-      try {
-        resetPlayer();
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      resetPlayer();
+    } catch (err) {
+      console.log(err);
     }
     fetchAudio();
+    setIsNextDisabled(currIndex >= trackList.length);
+    setIsPreviousDisabled(currIndex <= 1);
   }, [currentTrack]);
 
   const playbackHandler = async (key) => {
@@ -99,14 +103,16 @@ const AudioPlayer = () => {
     try {
       if (
         isPlaying &&
-        skipAction == 'backward' &&
-        currentDuration < totalDuration - secondsToSkip * 1000
+        skipAction == 'backward'
+        // &&
+        // currentDuration < totalDuration - secondsToSkip * 1000
       ) {
         await audio.setPositionAsync(currentDuration - secondsToSkip * 1000);
       } else if (
         isPlaying &&
-        skipAction == 'forward' &&
-        currentDuration > secondsToSkip * 1000
+        skipAction == 'forward'
+        // &&
+        // currentDuration > secondsToSkip * 1000
       ) {
         await audio.setPositionAsync(currentDuration + secondsToSkip * 1000);
       } else {
@@ -171,7 +177,7 @@ const AudioPlayer = () => {
         <Pressable
           onPress={async () => {
             navigation.goBack();
-            await audio.pauseAsync();
+            // await audio.pauseAsync();
           }}
         >
           <View className='bg-slate-400 rounded-full p-3 '>
@@ -213,10 +219,14 @@ const AudioPlayer = () => {
           <View className='flex-row items-center justify-around w-4/6'>
             <Pressable
               onPress={() => {
-                changeTrackHandler('previous');
+                isPreviousDisabled ? null : changeTrackHandler('previous');
               }}
             >
-              <View className='bg-slate-400 rounded-full p-5'>
+              <View
+                className={`bg-slate-400 rounded-full p-5 ${
+                  isPreviousDisabled ? 'opacity-30' : ''
+                }`}
+              >
                 <Image
                   source={require('../assets/images/previous.png')}
                   className='w-4 h-4'
@@ -228,6 +238,7 @@ const AudioPlayer = () => {
             {!isPlaying ? (
               <Pressable
                 onPress={() => {
+                  resetPlayer();
                   playbackHandler('play');
                 }}
               >
@@ -256,13 +267,17 @@ const AudioPlayer = () => {
             )}
             <Pressable
               onPress={() => {
-                changeTrackHandler('next');
+                isNextDisabled ? null : changeTrackHandler('next');
               }}
             >
-              <View className='bg-slate-400 rounded-full p-5'>
+              <View
+                className={`bg-slate-400 rounded-full p-5 ${
+                  isNextDisabled ? 'opacity-30' : ''
+                }`}
+              >
                 <Image
                   source={require('../assets/images/next.png')}
-                  className='w-4 h-4'
+                  className='w-4 h-4 '
                   key={trackId}
                 />
               </View>
@@ -289,10 +304,12 @@ const AudioPlayer = () => {
           </View>
         </View>
       ) : (
-        <Image
-          source={require('../assets/images/loading.png')}
-          className='w-10 h-10 mb-[120px]'
-        />
+        <View className='bg-slate-100 rounded-full p-3 mb-[155px]'>
+          <Image
+            source={require('../assets/images/1488.gif')}
+            className='w-10 h-10 '
+          />
+        </View>
       )}
     </View>
   );

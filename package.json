@@ -31,7 +31,8 @@
     "react-navigation": "^4.4.4",
     "react-redux": "^8.0.4",
     "sha1-file": "^1.0.4",
-    "expo-av": "~12.0.4"
+    "expo-av": "~12.0.4",
+    "react-native-reanimated": "~2.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

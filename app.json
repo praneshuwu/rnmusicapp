@@ -19,7 +19,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ken.rnmusicapp"
+      "bundleIdentifier": "com.ken.rnmusicapp",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
