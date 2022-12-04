@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { loading, albumDataFetched } from '../store/albumSlice';
 import { albumListFetched } from '../store/albumListSlice';
-import { trackFetched } from '../store/trackSlice';
+import { trackFetched } from '../store/playerSlice';
 
 export const fetchAlbumData = async (dispatch, albumId) => {
   dispatch(loading);

@@ -3,7 +3,7 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Audio } from 'expo-av';
+import { Audio,InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 
 import axios from 'axios';
 
@@ -63,9 +63,13 @@ const AudioPlayer = () => {
         );
         setTrackTitle(track?.name);
         // setIsPlaying(true);
-        await setAudio(sound);
+        // await sound?.setAudioModeAsync({
+        //   staysActiveInBackground: true,
+        //   interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        //   interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+        // });
         await sound?.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-        await sound._subscribeToNativeEvents();
+        await setAudio(sound);
         setIsLoading(false);
       } catch (err) {
         console.log(err);

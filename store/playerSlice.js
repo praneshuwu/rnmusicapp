@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const trackSlice = createSlice({
-  name: 'track',
+const playerSlice = createSlice({
+  name: 'player',
   initialState: {
     track: {},
     isLoading: false,
     isError: false,
+    isPlaying: false,
+    isPaused: true,
   },
   reducers: {
     loading: (state) => (state.isLoading = true),
@@ -18,7 +20,11 @@ const trackSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+    trackIsPlaying: (state) => {
+      state.isPlaying = true;
+      state.isPaused = false;
+    },
   },
 });
-export const { loading, trackFetched, trackError } = trackSlice.actions;
-export default trackSlice.reducer;
+export const { loading, trackFetched, trackError } = playerSlice.actions;
+export default playerSlice.reducer;

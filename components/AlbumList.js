@@ -1,5 +1,5 @@
 import AlbumListItem from './AlbumListItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { fetchAlbumList } from '../utils/apiCalls';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,11 @@ const AlbumList = ({ data }) => {
     //   setEndOfData(true);
     // }
   };
+
+  useEffect(() => {
+    fetchMore();
+  }, [])
+  
 
   return (
     <View className='flex-1' showsVerticalScrollIndicator={false}>
@@ -40,8 +45,6 @@ const AlbumList = ({ data }) => {
         onEndReachedThreshold={0.3}
         onEndReached={fetchMore}
       />
-      {/* Add loading more functionality */}
-      {/* <AlbumListFooter/> */}
     </View>
   );
 };
