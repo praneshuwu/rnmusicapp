@@ -70,3 +70,4 @@ configurations.all {
     force 'com.facebook.react:react-native:0.69.6'
   }
 }
+

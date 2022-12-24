@@ -16,7 +16,7 @@ const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [totalDuration, setTotalDuration] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentTrack, setCurrentTrack] = useState(trackId);
   const [trackTitle, setTrackTitle] = useState(trackName);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
@@ -52,7 +52,6 @@ const AudioPlayer = () => {
   const fetchAudio = async () => {
     if (currentTrack) {
       try {
-        setIsLoading(true);
         const response = await axios.get(
           `${process.env.API_URL}/tracks/${currentTrack}?apikey=${process.env.API_KEY}`
         );
@@ -218,7 +217,7 @@ const AudioPlayer = () => {
         </View>
       </View>
 
-      {totalDuration ? (
+      {!isLoading ? (
         <View className='items-center w-full mb-20'>
           <View className='flex-row items-center justify-around w-4/6'>
             <Pressable

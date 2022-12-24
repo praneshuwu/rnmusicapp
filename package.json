@@ -30,7 +30,9 @@
     "react-native-web": "~0.18.7",
     "react-navigation": "^4.4.4",
     "react-redux": "^8.0.4",
-    "sha1-file": "^1.0.4"
+    "sha1-file": "^1.0.4",
+    "react-native-safe-area-context":"4.4.1",
+    "react-native-screens":"3.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
