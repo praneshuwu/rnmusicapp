@@ -2,9 +2,6 @@
 
 A sleek and performant music player application built with React Native. This app provides a seamless user experience for browsing albums and playing tracks, featuring a modern interface and robust state management.
 
-![App Demo](https://placehold.co/600x400/2d3748/ffffff/gif?text=Add+App+Demo+GIF+Here)
-*(Replace the placeholder above with a GIF showcasing your app)*
-
 ---
 
 ## 🚀 Key Features
@@ -24,9 +21,9 @@ A sleek and performant music player application built with React Native. This ap
 - **Core:** React Native
 - **State Management:** Redux Toolkit
 - **Styling:** Tailwind CSS
-- **Navigation:** React Navigation (Assumed)
-- **Audio Playback:** `react-native-track-player` (Inferred from `TrackPlayerService.js`)
-- **Linting & Formatting:** ESLint, Prettier (Assumed)
+- **Navigation:** React Navigation
+- **Audio Playback:** `react-native-track-player`
+- **Linting & Formatting:** ESLint, Prettier
 
 ---
 
@@ -44,8 +41,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your-username/rn-music-app.git
-    cd rn-music-app
+    git clone https://github.com/praneshuwu/rnmusicapp.git
+    cd rnmusicapp
     ```
 
 2.  **Install NPM packages:**
@@ -95,17 +92,10 @@ The project is organized into the following directories:
 ├── utils/            # Helper functions, API calls, and services
 └── App.js            # Main application component and navigation setup
 ```
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (optional).
-
 ---
 
 ## 👤 Contact
 
-Your Name - [your.email@example.com](mailto:your.email@example.com)
+Your Name - [krishna.pranesh@live.com](mailto:krishna.pranesh@live.com)
 
-Project Link: [https://github.com/your-username/rn-music-app](https://github.com/your-username/rn-music-app)
+Project Link: [https://github.com/praneshuwu/rnmusicapp.git](https://github.com/praneshuwu/rnmusicapp.git)
